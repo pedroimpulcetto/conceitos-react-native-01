@@ -1,20 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  SafeAreaView,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import {FlatList} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import styles from './styles';
+import {Container, Title, Box, Button, Input, Edit, Editor} from './styles';
 
 import api from './services/api';
 
 export default function App() {
   const [git, setGit] = useState([]);
-  const [newGit, setNewGit] = useState('');
+  const [newGit, setNewGit] = useState({name: ''});
 
   useEffect(() => {
     api.get('users/pedroimpulcetto/repos').then(res => {
@@ -22,38 +16,63 @@ export default function App() {
     });
   }, []);
 
-  function handleNewRep() {
-    setGit([...git, {id: Date.now(), name: newGit}]);
-    setNewGit('');
+  function handleNewRep(item) {
+    if (item.id) {
+      let newList = git.map(i => {
+        if (i.id === item.id) {
+          i = item;
+        }
+        return i;
+      });
+      setGit(newList);
+      setNewGit({name: ''});
+
+      return;
+    }
+
+    setGit([...git, {id: Date.now(), name: item.name}]);
+    setNewGit({name: ''});
+  }
+
+  function handleEdit(item) {
+    setNewGit({id: item.id, name: item.name});
   }
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
-        <TextInput
-          style={styles.input}
-          onChangeText={text => setNewGit(text)}
-          value={newGit}
+      <Container>
+        <Input
+          onChangeText={text => setNewGit({...newGit, name: text})}
+          value={newGit.name}
           autoCapitalize="words"
+          autoCorrect={false}
+          placeholder="Insirt here.."
+          placeholderTextColor="#737373"
+          textAlign="left"
         />
 
         <FlatList
           data={git}
-          keyExtractor={repository => repository.id}
+          keyExtractor={repository => String(repository.id)}
           renderItem={({item}) => (
-            <View style={styles.box}>
-              <Text style={styles.title}>{item.name}</Text>
-            </View>
+            <Editor>
+              <Box>
+                <Title>{item.name}</Title>
+              </Box>
+              <Edit onPress={() => handleEdit(item)}>
+                <Icon name="edit" size={30} color="#fff" />
+              </Edit>
+            </Editor>
           )}
         />
 
-        <TouchableOpacity
-          onPress={handleNewRep}
-          activeOpacity={0.8}
-          style={styles.button}>
-          <Text style={styles.buttonTitle}>New Respository</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
+        <Button onPress={() => handleNewRep(newGit)} activeOpacity={0.8}>
+          <Title>
+            {newGit.id ? 'Save Repository' : 'Add Repository'}
+            <Icon name="add" size={20} />
+          </Title>
+        </Button>
+      </Container>
     </>
   );
 }

@@ -1,49 +1,56 @@
-import {StyleSheet} from 'react-native';
+import styled from 'styled-components/native';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8F9F9',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#FFF',
-  },
-  box: {
-    margin: 10,
-    height: 50,
-    backgroundColor: '#737373',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: '#fff',
-    borderRadius: 5,
-    borderStyle: 'solid',
-    borderWidth: 1,
-  },
-  button: {
-    margin: 20,
-    backgroundColor: '#F8C471',
-    height: 50,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonTitle: {
-    color: '#737373',
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  input: {
-    margin: 10,
-    backgroundColor: '#ABB2B9',
-    height: 60,
-    borderRadius: 5,
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: '#fff',
-    paddingLeft: 20,
-  },
-});
+export const Container = styled.SafeAreaView`
+  flex: 1;
+  background: #f8f9f9;
+`;
 
-export default styles;
+export const Title = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  margin-left: 20px;
+`;
+
+export const Editor = styled.View`
+  flex-direction: row;
+`;
+
+export const Box = styled.View`
+  flex: 1;
+  margin: 10px;
+  height: 50px;
+  background: #737373;
+  justify-content: center;
+  align-items: flex-start;
+  border-color: #fff;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+`;
+
+export const Button = styled.TouchableOpacity`
+  margin: 20px;
+  background: #f8c471;
+  height: 50px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Input = styled.TextInput`
+  margin: 10px;
+  font-size: 20px;
+  border: 2px solid lightgray;
+  border-radius: 5px;
+  padding-left: 20px;
+`;
+
+export const Edit = styled.TouchableOpacity`
+  background: #f8c471;
+  margin: 10px;
+  border-radius: 5px;
+  width: 50px;
+  justify-content: center;
+  align-items: center;
+`;
